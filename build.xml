@@ -1,0 +1,49 @@
+<project name="Boggle" default="compile" basedir=".">
+    <description>
+        The build file for the Boggle Project
+    </description>
+  <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+
+  <!-- METTRE ICI LE NOM DU BINOME -->
+  <property name="nom1" value="TRUBLEREAU"/>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init"
+        description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac debug="true" srcdir="${src}" excludes="" destdir="${build}" includeantruntime="false" />
+  </target>
+
+  <target name="run" depends="compile"
+          description="run examples">
+    <!--<echo>================ Run Boggle ================</echo>-->
+    <java classname="tests.BoggleMain" classpath="${build}">
+    </java>
+  </target>
+
+  <target name="dist" depends="init,clean"
+        description="Generer la distribution" >
+    <!-- tout mettre dans l'archive -->
+    <jar basedir="." jarfile="../Boggle-PC2R-${nom1}.tar.gz" />
+  </target>
+
+  <target name="clean"
+        description="clean up" >	
+	<echo>================ Removing temporary files... ================</echo>
+        <delete verbose="true"> <!-- Remove all *~ files -->
+	   <fileset dir="${basedir}" defaultexcludes="no">
+             <include name="**/*~"/>
+           </fileset>
+        </delete>
+        <echo>================ Removing build directory ================</echo>    
+	<delete dir="${build}"/>
+  </target>
+</project>
